@@ -1,0 +1,235 @@
+/* ========== Base / Global ========== */
+:root{ --g700:#2e7d32; --g500:#43a047; --g400:#66bb6a; --g200:#c8e6c9; --text:#2f4f2f; --bdr:#e6f2e6; }
+body{ margin:0; font:12pt Arial; }
+header_above {
+    display: flex;
+    justify-content: flex-end;   /* gurni sve udesno */
+    align-items: center;
+    gap: 1rem;                   /* razmak između linkova */
+    padding: 0.3em 1em;
+    background: #f8f8f8;         /* blaga pozadina da se odvoji od headera */
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+}
+
+header_above a {
+    color: #2e7d32;
+    font-weight: 500;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+header_above a:hover {
+    background: #e8f5e9;
+}
+
+a{ text-decoration:none; } a:visited{ color:blue; }
+error{ font-weight:bold; color:red; } message{ font-weight:bold; color:blue; }
+
+/* ========== Header / Nav / Wrapper / Footer ========== */
+header{
+    background: url(../images/vet-logo.png) no-repeat 1em center/auto 75%;
+    display:block; height:3.5em;
+}
+nav{
+    display:block; border:1px solid green; border-left:none; border-right:none;
+    text-align:center; padding:.25em;
+    background-image:linear-gradient(#81c784,#fff,#81c784);
+}
+nav a:not(:last-child){ margin-right:.5em; }
+wrapper{ display:block; margin:1em; }
+footer{ text-align:center; margin-top:2em; padding-top:1em; }
+
+/* ========== Contact ========== */
+page_contact form label, page_contact form button{ display:block; margin:.25em; }
+
+/* ========== Auth (Login / Register) ========== */
+page_login, page_register{ display:flex; justify-content:center; align-items:center; }
+page_login form, page_register form{
+    display:block; text-align:center; padding:.2em 1em;
+    border:1px solid green; border-left:none; border-right:none;
+    background-image:linear-gradient(var(--g200),#fff,var(--g200));
+}
+page_login form label, page_register form label,
+page_login form button, page_register form button{
+    display:block; margin:.1em auto 0; font-weight:bold; color:var(--g700);
+}
+page_login form input, page_register form input{
+    display:block; margin:.25em auto 0; padding:.2em .3em;
+    border:1px solid var(--g700); border-radius:4px; width:80%; max-width:200px;
+}
+page_login form button, page_register form button{
+    padding:.3em .9em; background:linear-gradient(var(--g700),var(--g400));
+    border:none; border-radius:4px; color:#fff; cursor:pointer; transition:background .3s; margin:.2em auto;
+}
+page_login form button:hover, page_register form button:hover{ background:linear-gradient(#1b5e20,var(--g500)); }
+
+/* ========== Product (detail) ========== */
+page_product{
+    display:block; max-width:40%; padding:.5em; background:#fff; border-radius:8px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1); overflow-x:hidden;
+}
+.product-thumbnail img{
+    max-width:40%; height:auto; border:1px solid #ddd; border-radius:6px;
+}
+
+/* ========== Cart (table layout) ========== */
+page_cart{
+    display:block; font-family:"Segoe UI",sans-serif; margin:2rem auto; max-width:900px;
+    padding:1rem 2rem; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.cart-table{ display:grid; gap:8px; }
+.cart-row{
+    display:grid; grid-template-columns:1.5fr .7fr .6fr .7fr; align-items:center;
+    padding:10px 12px; border:1px solid #e0e0e0; border-radius:6px;
+}
+.cart-head{
+    background:linear-gradient(var(--g200),#fff,var(--g200));
+    border-left:none; border-right:none; text-align:left; font-weight:bold;
+}
+.cart-footer{ background:#f9f9f9; }
+.cart-product{ display:flex; align-items:center; gap:10px; }
+.cart-product img{ width:48px; height:48px; object-fit:cover; border:1px solid #ddd; border-radius:4px; }
+.cart-price,.cart-qty,.cart-line,.cart-total-label,.cart-total-value,
+.cart-row>div:nth-child(2),.cart-row>div:nth-child(3),.cart-row>div:nth-child(4){ text-align:right; }
+
+/* ========== Image Modal (product zoom) ========== */
+.image-modal{
+    display:none; position:fixed; inset:0; z-index:1000; padding-top:60px;
+    background:rgba(0,0,0,.9); overflow:auto;
+}
+.image-modal img{ display:block; margin:auto; max-width:90%; max-height:80vh; border-radius:6px; }
+.image-modal .close{ position:absolute; top:20px; right:35px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; }
+
+/* ========== Products Filter (public list) ========== */
+.products-filter{
+    display:flex; align-items:center; gap:1rem; max-width:1100px; margin:1rem auto 1.5rem; padding:.5rem 1rem;
+    border:1px solid green; border-left:none; border-right:none; background-image:linear-gradient(var(--g200),#fff,var(--g200));
+}
+.products-filter label{ font-weight:600; color:var(--g700); }
+.products-filter select, .products-filter input[type="text"]{
+    padding:.4rem .6rem; border:1px solid #ccc; border-radius:4px;
+}
+.products-filter button{
+    padding:.5rem 1rem; border:none; border-radius:4px; background:linear-gradient(135deg,var(--g700),var(--g400)); color:#fff; font-weight:600; cursor:pointer;
+}
+.products-filter button:hover{ background:linear-gradient(135deg,#1b5e20,var(--g500)); }
+
+/* ========== Products Grid (public) ========== */
+.products{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; max-width:1100px; margin:0 auto 2rem;
+}
+.products a{
+    display:block; background:#fff; border:1px solid #ddd; border-radius:6px; padding:.75rem; text-align:center;
+}
+.products a img{
+    width:100%; height:160px; object-fit:cover; border-radius:4px; margin-bottom:.5rem;
+}
+.products a h3{ font:600 14px/1.3 "Segoe UI",sans-serif; color:#1b5e20; margin:0; }
+
+/* ========== User Page ========== */
+page_user{
+    display:block; font-family:"Segoe UI",sans-serif; max-width:600px; margin:2rem auto; padding:1.5rem;
+    background:#fff; border:1px solid #ddd; border-radius:8px;
+}
+.user-info ul{ list-style:none; padding:0; margin-bottom:2rem; }
+.user-info li{ padding:.25rem 0; border-bottom:1px solid #eee; }
+.user-change-info form{
+    margin-bottom:2rem; padding:1rem; border:1px solid var(--g200); border-radius:6px; background:#f9f9f9;
+}
+.user-change-info h2{ margin-top:0; color:var(--g700); font-size:1.1rem; }
+.user-change-info label{ display:block; margin-top:.5rem; font-weight:600; }
+.user-change-info input[type="password"], .user-change-info input[type="checkbox"]{ margin:.25rem 0 .75rem; }
+.user-change-info button{
+    display:inline-block; padding:.5rem 1rem; border:none; border-radius:4px; background:linear-gradient(135deg,var(--g700),var(--g400));
+    color:#fff; font-weight:600; cursor:pointer;
+}
+.user-change-info button:hover{ background:linear-gradient(135deg,#1b5e20,var(--g500)); }
+
+/* ========== Cart (cards layout) ========== */
+page_cart{
+    display:block; font-family:Arial,sans-serif; margin:2rem auto; max-width:900px; padding:1rem; background:#fff; border:1px solid #ddd; border-radius:6px;
+}
+.cart{ display:flex; gap:1.5rem; }
+.cart-products{ flex:2; display:flex; flex-direction:column; gap:1rem; }
+.cart-product{ display:flex; gap:1rem; border:1px solid #eee; padding:.75rem; border-radius:4px; background:#fafafa; }
+.cart-product img{ width:80px; height:auto; border:1px solid #ccc; border-radius:4px; }
+.copy h2{ font-size:1rem; margin:0; } .copy p{ margin:.25rem 0; font-weight:bold; }
+.cart-buttons{ margin-top:.5rem; display:flex; gap:.5rem; align-items:center; }
+.cart-overall{
+    flex:1; border:1px solid #eee; padding:1rem; border-radius:4px; background:#f9f9f9;
+    display:flex; flex-direction:column; gap:.75rem;
+}
+.cart-overall p{ margin:0; font-weight:bold; }
+.cart-overall label{ font-size:.9rem; margin-bottom:.2rem; }
+.cart-overall input[type="text"]{
+    padding:.4rem; border:1px solid #ccc; border-radius:4px; font-size:.9rem; width:100%; box-sizing:border-box;
+}
+.cart-overall .update-cart{ margin-top:.5rem; align-self:flex-start; }
+.update-cart,.cart-remove-product{ padding:.4rem .8rem; border:none; border-radius:4px; background:#4caf50; color:#fff; cursor:pointer; }
+.cart-remove-product{ background:#e53935; }
+.update-cart:hover,.cart-remove-product:hover{ opacity:.9; }
+
+/* ========== Admin Pages (layout) ========== */
+page_admin, page_admin_charts{
+    display:block; font-family:"Segoe UI",system-ui,sans-serif; max-width:1100px; margin:1.5rem auto; padding:1rem 1.25rem;
+    background:#fff; border:1px solid var(--bdr); border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+/* Admin Filter bars (list/charts) */
+.search-and-filter{ text-align:center; margin-bottom:1rem; }
+.search-and-filter form{
+    display:flex; flex-wrap:wrap; gap:.6rem 1rem; justify-content:center; align-items:center;
+}
+.search-and-filter form label{ font-size:1rem; font-weight:500; color:var(--text); margin-right:.25rem; }
+.search-and-filter form select, .search-and-filter form input{
+    padding:.45rem .65rem; font-size:.9rem; border:1px solid #d8ead8; border-radius:6px; background:#fff;
+}
+.search-and-filter form button, .search-and-filter form a{
+    padding:.45rem .7rem; font-size:.9rem; border-radius:6px; border:1px solid var(--g700);
+    background:linear-gradient(var(--g200),#a5d6a7); cursor:pointer; text-decoration:none;
+}
+.search-and-filter form a{ background:linear-gradient(#e8f5e9,var(--g200)); }
+
+/* Admin list */
+.products-admin{ display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem; }
+.product-card{
+    border:1px solid var(--bdr); border-radius:10px; padding:.8rem; background:#fafdfb;
+}
+.product-card img{
+    width:100%; height:150px; object-fit:cover; border:1px solid var(--bdr); border-radius:8px; margin-bottom:.5rem;
+}
+.product-card h3{ margin:.25rem 0 .4rem; font-size:1rem; }
+.product-card ul{ margin:0 0 .6rem; padding-left:1rem; font-size:.92rem; color:var(--text); }
+.product-card a{
+    display:inline-block; margin-right:.4rem; padding:.4rem .6rem; border:1px solid var(--g700); border-radius:8px;
+    text-decoration:none; background:linear-gradient(#e8f5e9,var(--g200)); font-size:.9rem;
+}
+
+/* Admin add/edit */
+.add-edit-form{
+    display:grid; grid-template-columns:1fr 1fr; gap:.9rem; border:1px solid var(--bdr); border-radius:10px; padding:1rem; background:#fafdfb;
+}
+.add-edit-form h1{ grid-column:1/-1; margin:0 0 .5rem; font-size:1.25rem; }
+.add-edit-form label{ font-size:.9rem; color:var(--text); }
+.add-edit-form input, .add-edit-form textarea{
+    width:100%; padding:.6rem .75rem; border:1px solid #d8ead8; border-radius:8px; background:#fff; font:inherit;
+}
+.add-edit-form textarea{ min-height:110px; resize:vertical; }
+.add-edit-form button, .add-edit-form a{ width:fit-content; padding:.55rem .9rem; }
+.add-edit-form a{ border:1px solid var(--g700); border-radius:8px; text-decoration:none; background:linear-gradient(#e8f5e9,var(--g200)); }
+
+/* Admin charts */
+.charts{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.chart-holder{ border:1px solid var(--bdr); border-radius:10px; padding:1rem; background:#fafdfb; }
+.chart-holder h3{ margin:0 0 .5rem; font-size:1.05rem; }
+
+/* Admin confirm */
+page_admin .add-edit-form, page_admin_confirm .add-edit-form{ grid-template-columns:1fr; }
+
+/* ========== Small UX touches ========== */
+button:hover, a:hover{ filter:brightness(.98); }
+input:focus, select:focus, textarea:focus{ outline:2px solid #a5d6a7; outline-offset:1px; }
+/* Optional: uži chart page */
+/* page_admin_charts{ max-width:1000px; } */
