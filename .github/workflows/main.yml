@@ -1,0 +1,89 @@
+name: CI/CD Pipeline - Veterinarska Apoteka
+
+# 1. Okidači: Pokretanje na svaki push ili pull request ka glavnoj grani
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ----------------------------------------------------
+  # FAZA 1: Kontinuirana Integracija (CI)
+  # ----------------------------------------------------
+  ci-build-and-test:
+    runs-on: ubuntu-latest
+
+    # Pokretanje MySQL kontejnera unutar CI okruženja za potrebe testiranja
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: vet_apoteka_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      # Preuzimanje koda iz repozitorijuma
+      - name: Checkout koda
+        uses: actions/checkout@v4
+
+      # Podešavanje PHP okruženja sa potrebnim ekstenzijama
+      - name: Postavljanje PHP runtime-a
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, pdo, pdo_mysql, mbstring
+          coverage: none
+
+      # Provera sintaksne ispravnosti svih PHP datoteka (Linting)
+      - name: PHP Sintaksna provera (Lint)
+        run: |
+          find . -type f -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
+
+      # Statička analiza koda radi detekcije logičkih grešaka i ranjivosti
+      - name: Pokretanje statičke analize (PHPStan)
+        run: |
+          composer require --dev phpstan/phpstan
+          vendor/bin/phpstan analyse core modules --level=5 --memory-limit=1G
+
+      # Import DDL šeme u testnu bazu radi verifikacije relacionog integriteta
+      - name: Verifikacija DDL šeme baze podataka
+        run: |
+          mysql -h 127.0.0.1 -u root -proot vet_apoteka_test < database/schema.sql
+
+      # CD
+  cd-deploy:
+    needs: ci-build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout koda
+        uses: actions/checkout@v4
+
+      # Sinhronizacija datoteka sa Apache produkcionim serverom
+      - name: Postavljanje na produkcioni server (rsync preko SSH)
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i --delete --exclude='.git*' --exclude='database/*.sql'"
+          SOURCE: "/"
+          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.SERVER_USER }}
+          TARGET: "/var/www/html/veterinarska-apoteka"
+
+      # Podešavanje vlasništva i bezbednosnih permisija na serveru
+      - name: Postavljanje Linux dozvola (www-data)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            sudo chown -R www-data:www-data /var/www/html/veterinarska-apoteka
+            sudo find /var/www/html/veterinarska-apoteka -type d -exec chmod 755 {} \;
+            sudo find /var/www/html/veterinarska-apoteka -type f -exec chmod 644 {} \;
+            sudo chmod -R 775 /var/www/html/veterinarska-apoteka/public/uploads
