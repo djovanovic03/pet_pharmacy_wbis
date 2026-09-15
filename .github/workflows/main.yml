@@ -47,7 +47,7 @@ jobs:
       - name: Pokretanje statičke analize (PHPStan)
         run: |
           composer require --dev phpstan/phpstan
-          vendor/bin/phpstan analyse core modules --level=5 --memory-limit=1G
+          vendor/bin/phpstan analyse
 
       # Import DDL šeme u testnu bazu radi verifikacije relacionog integriteta
       - name: Verifikacija DDL šeme baze podataka
