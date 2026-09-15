@@ -3,8 +3,6 @@ parameters:
     paths:
         - core
         - modules
-    checkExplicitNamespaces: false
-    checkFunctionNameCase: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Variable \$_db might not be defined#'
