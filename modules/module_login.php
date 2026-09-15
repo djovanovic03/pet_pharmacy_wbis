@@ -40,6 +40,3 @@ $_page = [
         'title' => 'Prijava',
         'view_filename' => './view/view_login.php',
 ];
-
-?>
-
