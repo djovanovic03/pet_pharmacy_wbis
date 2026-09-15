@@ -5,25 +5,56 @@
     <script src="./public/js/script.js"></script>
     <title>Veterinarska Apoteka</title>
 </head>
+
 <body>
-    <header_above>
-        <?php if (($_SESSION['login_status'] ?? 0)): ?>
+
+<header>
+
+    <a href="./index.php" class="logo">
+        <img src="./public/images/vet-logo.png" alt="Veterinarska apoteka">
+    </a>
+
+    <nav class="main-nav">
+        <a href="./index.php">Početna</a>
+        <a href="./index.php?module=products">Proizvodi</a>
+        <a href="./index.php?module=contact">Kontakt</a>
+    </nav>
+
+    <nav class="user-nav">
+
+        <?php if ($_SESSION['login_status'] ?? false): ?>
+
+            <a href="./index.php?module=cart">Korpa</a>
+
+            <a href="./index.php?module=user">
+                <?= htmlspecialchars($_SESSION['user']['first_name'] ?? 'Moj nalog') ?>
+            </a>
+
             <?php if ((int)($_SESSION['user']['is_admin'] ?? 0) === 1): ?>
-                <a href="./index.php?module=admin">Administracija</a>
+                <a class="admin-link" href="./index.php?module=admin">
+                    Administracija
+                </a>
             <?php endif; ?>
 
-            <a href="./index.php?module=login&action=logout">Odjavi se</a>
-            <a href="./index.php?module=cart">Moja korpa</a>
-            <a href="./index.php?module=user">Moji podaci</a>
-    <?php else: ?>
-        <a href="./index.php?module=login">Prijavi se</a>
-        <a href="./index.php?module=register">Registruj se</a>
-    <?php endif; ?>
-    </header_above>
-    <header>
-    </header>
-    <?php include('./view/page_nav.php');?>
-    <wrapper>
+            <a href="./index.php?module=login&action=logout">
+                Odjava
+            </a>
 
+        <?php else: ?>
 
+            <a href="./index.php?module=login">
+                Prijava
+            </a>
 
+            <a class="register-btn"
+               href="./index.php?module=register">
+                Registracija
+            </a>
+
+        <?php endif; ?>
+
+    </nav>
+
+</header>
+
+<wrapper>
