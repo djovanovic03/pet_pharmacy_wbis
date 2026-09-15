@@ -11,5 +11,3 @@
             <?php endif ?>
         </form>
 </page_login>
-
-
