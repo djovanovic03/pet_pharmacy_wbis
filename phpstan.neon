@@ -1,0 +1,12 @@
+parameters:
+    level: 2
+    paths:
+        - core
+        - modules
+    bootstrapFiles:
+        - config.php
+        - core/database.php
+    ignoreErrors:
+        - '#Variable \$_db might not be defined#'
+        - '#Variable \$_config might not be defined#'
+        - '#Variable \$_error might not be defined#'
