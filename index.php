@@ -1,7 +1,7 @@
 <?php
 
 global $_db;
-session_start(
+session_start();
 
 $_error = [];
 $_message = [];
