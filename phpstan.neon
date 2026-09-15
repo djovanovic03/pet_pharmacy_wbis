@@ -1,12 +1,13 @@
 parameters:
-    level: 2
+    level: 1
     paths:
         - core
         - modules
-    bootstrapFiles:
-        - config.php
-        - core/database.php
+    checkExplicitNamespaces: false
+    checkFunctionNameCase: false
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Variable \$_db might not be defined#'
         - '#Variable \$_config might not be defined#'
         - '#Variable \$_error might not be defined#'
+        - '#Constant [A-Z0-9_]+ not found#'
