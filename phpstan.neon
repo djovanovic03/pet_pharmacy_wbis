@@ -3,6 +3,8 @@ parameters:
     paths:
         - core
         - modules
+        - index.php
+        - config.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Variable \$_db might not be defined#'
